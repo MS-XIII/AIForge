@@ -167,43 +167,6 @@ Delete the file to reset to defaults. A corrupt file is caught and silently repl
 
 ---
 
-## Build
-
-Compile to a single native Windows binary with Nuitka. PowerShell (backtick continuations):
-
-```powershell
-python -m nuitka --standalone --onefile `
-  --windows-disable-console `
-  --windows-icon-from-ico=devil.ico `
-  --output-filename=AIForge.exe `
-  --enable-plugin=anti-bloat `
-  --nofollow-import-to=tkinter.test `
-  --nofollow-import-to=unittest `
-  --nofollow-import-to=doctest `
-  --nofollow-import-to=pydoc `
-  --remove-output `
-  --assume-yes-for-downloads `
-  evilcreations.py
-```
-
-CMD users: swap the backtick for `^`. The command is also a single line if you'd rather paste it that way.
-
-What each flag does:
-
-- `--standalone --onefile` — self-contained exe, no Python required on the target.
-- `--windows-disable-console` — no cmd window alongside the GUI.
-- `--windows-icon-from-ico=devil.ico` — bakes the devil face into the binary. Run `make_icon.py` first.
-- `--enable-plugin=anti-bloat` — strips unused stdlib imports. Smaller binary, less surface to read.
-- `--nofollow-import-to=*` — stops Nuitka pulling in test/doc modules that don't ship.
-- `--remove-output` — deletes the generated `.c` folder after compiling.
-- `--assume-yes-for-downloads` — lets Nuitka fetch its C compiler deps without prompting.
-
-**First build is slow** (Python → C → exe). Subsequent builds hit Nuitka's cache and finish in seconds.
-
-If the compiled exe won't launch, rebuild **without** `--windows-disable-console` and run it from a terminal — you'll see the traceback that was being swallowed.
-
----
-
 ## Hardening
 
 `hardening.py` fires only when `__compiled__` is set in the module globals — i.e. only in the Nuitka-built exe. During development, `python evilcreations.py` runs guard-free, so you don't fight your own anti-analysis.
@@ -220,24 +183,6 @@ Any trip calls `_fail()`, which redirects stdout/stderr to `os.devnull` and exit
 **What this stops:** casual `strings` inspection, `pyinstxtractor` / `uncompyle6` (no bytecode to recover), debugger attachment, VM-sandbox automated analysis, and a good chunk of would-be RE traffic.
 
 **What it doesn't stop:** a Ghidra session against the native binary, or a memory dump of the running process. The Repository prompt has to exist as a Python string in RAM at generation time — that's the fundamental limit. For Nuitka-grade obfuscation of constants, that's a Commercial-license feature and not part of this repo's free stack.
-
----
-
-## Contributing
-
-PRs welcome. Before submitting:
-
-- Every new tab or generation surface should follow the existing pattern — a `ForgeTab` subclass, a `TAB_CONTEXT` entry, a `TAB_FILENAME` entry, and a row in the [Tab Reference](#tab-reference) table above.
-- Keep the UI consistent with the palette at the top of `evilcreations.py`. Don't introduce new accent colours without a reason.
-- Don't add external binary assets. The repo is meant to build clean from source — the only generated binary is `devil.ico`, and it's regenerated every launch if missing.
-- If you touch `hardening.py`, test against both dev (uncompiled) and compiled builds. The guards should never fire in dev mode.
-
-When you add a tab, update:
-
-- [README.md](README.md) — tab counts, structure tree, tab reference table.
-- The `TAB_CONTEXT` dict in `evilcreations.py`.
-- The `TAB_FILENAME` dict in `evilcreations.py`.
-- The placeholder and subtitle strings in `App.__init__`.
 
 ---
 
@@ -276,20 +221,9 @@ When you add a tab, update:
 
 ---
 
-## Socials & Community
-
-Issues, PRs, and anything that touches the code belong here on GitHub. For walkthroughs of new tabs, payload breakdowns, and general red-team chatter — drop your links:
-
-- **YouTube** — `<your channel>`
-- **Discord** — `<invite>`
-- **Telegram** — `<handle>`
-- **X / Twitter** — `<handle>`
-
----
-
 ## License
 
-MIT. Do what you want, keep the copyright notice, no warranty.
+MIT. Do not do what you want because you cannot. remember copyright, this tool has been fitted with security and watermarks.
 
 ---
 
