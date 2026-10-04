@@ -130,18 +130,7 @@ Flat catalog of every generation surface. Each tab is scoped to one engagement c
 ## Quick Start
 
 ```bash
-# Clone
-git clone https://github.com/<you>/ai-forge.git
-cd ai-forge
-
-# Install the one runtime dependency
-pip install requests
-
-# (optional) pre-generate the icon so Nuitka can bake it in at build time
-python make_icon.py
-
-# Run
-python evilcreations.py
+Download exe and run. simple.
 ```
 
 First launch opens a splash, then the main window. Hit **SETTINGS** in the top-right and fill in:
